@@ -9,5 +9,6 @@ public interface IProdutoDAO {
     void atualizar(Produto produto);
     void remover(int id);
     Produto buscarPorId(int id);
-    List<Produto> buscarTodos();
+    Produto buscarNome(String nome);
+    Produto listar();
 }

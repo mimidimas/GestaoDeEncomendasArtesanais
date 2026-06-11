@@ -17,6 +17,7 @@ repositories {
 dependencies {
     // Use JUnit test framework.
     testImplementation("junit:junit:4.13.2")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.3.3")
 
     // This dependency is used by the application.
 
@@ -32,7 +33,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "boundary.PedidoBoundary"
+    mainClass = "boundary.TelaPrincipal"
 }
 
 tasks.withType<JavaExec> {

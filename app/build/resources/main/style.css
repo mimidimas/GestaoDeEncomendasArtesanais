@@ -1,0 +1,94 @@
+/* Definições globais e de fonte */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #1a1a1a; /* Fundo cinza escuro sutil */
+}
+
+/* Título Principal */
+.main-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-alignment: center;
+    -fx-padding: 0 0 20px 0; /* Espaço abaixo do título */
+}
+
+/* Painel de Formulário Arredondado */
+.form-panel {
+    -fx-background-color: #121212; /* Painel cinza mais escuro */
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-padding: 40px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 5); /* Sombra suave para elevação */
+}
+
+/* Estilo de Rótulos de Campo (Código, Descrição, etc.) */
+.field-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ffffff; /* Cinza claro para rótulos */
+    -fx-padding: 0 0 5px 0; /* Espaço entre rótulo e campo */
+}
+
+/* Estilo de Campos de Entrada (TextField e TextArea) */
+.form-field {
+    -fx-background-color: #1f1f1f; /* Fundo sutil */
+    -fx-border-color: #333333; /* Borda escura sutil */
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-text-fill: #ffffff; /* Texto branco */
+    -fx-padding: 10px;
+}
+
+/* Estilo para Texto de Espaço Reservado (Placeholder) */
+.form-field .text {
+    -fx-fill: #666666; /* Cinza médio para texto sutil */
+}
+
+/* Estilo do Botão de Ação "Cadastrar" */
+.action-button {
+    -fx-background-color: #a81c5a; /* Magenta vibrante */
+    -fx-text-fill: #ffffff; /* Texto branco */
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 15px 30px;
+    -fx-alignment: center;
+    -fx-cursor: hand; /* Cursor de mão para feedback */
+}
+
+/* Efeitos de Interação para o Botão */
+.action-button:hover {
+    -fx-background-color: #c4266c; /* Magenta mais claro no hover */
+}
+
+.action-button:active {
+    -fx-background-color: #8d164d; /* Magenta mais escuro no clique */
+}
+
+/* Barra de Navegação Superior (Simulada) */
+.nav-bar {
+    -fx-background-color: #121212;
+    -fx-padding: 10px;
+    -fx-alignment: center-left;
+    -fx-spacing: 20px;
+}
+
+/* Ícones de Navegação */
+.nav-icon {
+    -fx-font-size: 20px;
+    -fx-text-fill: #b3b3b3;
+}
+
+/* Link de Perfil Ativo */
+.nav-profile-active {
+    -fx-border-color: #a81c5a; /* Borda inferior magenta */
+    -fx-border-width: 0 0 3px 0;
+    -fx-padding: 0 0 3px 0;
+}
+
+.login-card {
+    -fx-background-color: #121212; /* Um cinza bem escuro, quase preto */
+    -fx-background-radius: 15px;   /* Deixa as pontas redondinhas */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 10); /* Sombra pesada pra dar destaque */
+}
