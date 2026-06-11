@@ -4,7 +4,7 @@ Projeto feito por:
 Emily Dimas Candido
 
 O tema do trabalho: 
-gestão artesanal (podendo criar pedidos e procutos)
+gestão artesanal (podendo criar pedidos e produtos)
 
 O problema resolvido: 
 automação de encomendas para pessoas que fazem trabalhos artesanais 
