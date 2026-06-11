@@ -1,6 +1,7 @@
 package DAO;
 
 import entity.Produto;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.Connection;
@@ -8,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoImplDAO implements IProdutoDAO {
@@ -86,33 +86,33 @@ public class ProdutoImplDAO implements IProdutoDAO {
     }
 
     @Override
-    public void atualizar(Produto produto) {
+    public void atualizar(long id, Produto p) {
         try {
             String sql = "UPDATE produto SET nome = ?, descricao = ?, material = ?, tamanho = ?, valor = ?, quant_estoque = ? WHERE id = ?";
             PreparedStatement stm = con.prepareStatement(sql);
 
-            stm.setString(1, produto.getNome());
-            stm.setString(2, produto.getDescricao());
-            stm.setString(3, produto.getMaterial());
-            stm.setString(4, produto.getTamanho());
-            stm.setFloat(5, produto.getValor());
-            stm.setInt(6, produto.getQuantEstoque());
-            stm.setLong(7, produto.getId());
+            stm.setString(1, p.getNome());
+            stm.setString(2, p.getDescricao());
+            stm.setString(3, p.getMaterial());
+            stm.setString(4, p.getTamanho());
+            stm.setFloat(5, p.getValor());
+            stm.setInt(6, p.getQuantEstoque());
+            stm.setLong(7, id); // O ID vai por último
 
             stm.executeUpdate();
             System.out.println("Produto atualizado com sucesso");
         } catch (SQLException e) {
-            System.out.println("Erro ao conectar/atualizar");
+            System.out.println("Erro ao atualizar no banco");
             e.printStackTrace();
         }
     }
 
     @Override
-    public void remover(int id) {
+    public void remover(String nome) {
         try {
-            String sql = "DELETE FROM produto WHERE id = ?";
+            String sql = "DELETE FROM produto WHERE nome = ?";
             PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, id);
+            stm.setString(1, nome);
             stm.executeUpdate();
             System.out.println("Produto apagado com sucesso");
         } catch (SQLException e) {
@@ -150,8 +150,10 @@ public class ProdutoImplDAO implements IProdutoDAO {
     }
 
     @Override
-    public Produto buscarNome(String nome) {
-        Produto p = null;
+    public ObservableList<Produto> buscarNome(String nome) {
+        // A forma correta de inicializar:
+        ObservableList<Produto> lista = FXCollections.observableArrayList();
+
         try {
             String sql = "SELECT * FROM produto WHERE nome LIKE ?";
             PreparedStatement stm = con.prepareStatement(sql);
@@ -159,8 +161,8 @@ public class ProdutoImplDAO implements IProdutoDAO {
 
             ResultSet rs = stm.executeQuery();
 
-            if (rs.next()) {
-                p = new Produto();
+            while (rs.next()) {
+                Produto p = new Produto();
                 p.setId(rs.getLong("id"));
                 p.setNome(rs.getString("nome"));
                 p.setDescricao(rs.getString("descricao"));
@@ -168,35 +170,13 @@ public class ProdutoImplDAO implements IProdutoDAO {
                 p.setTamanho(rs.getString("tamanho"));
                 p.setValor(rs.getFloat("valor"));
                 p.setQuantEstoque(rs.getInt("quant_estoque"));
+                lista.add(p);
             }
             System.out.println("Comando executado com sucesso");
         } catch (SQLException e) {
             System.out.println("Erro ao conectar/buscar");
             e.printStackTrace();
         }
-        return p;
-    }
-
-    @Override
-    public List<Produto> listar() {
-        ObservableList<Produto> lista;
-        String sql = "SELECT * FROM produto";
-        try {
-            PreparedStatement stm = con.prepareStatement(sql);
-            ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
-                Produto p = new Produto();
-                p.setId(rs.getInt("id"));
-                p.setNome(rs.getString("nome"));
-                p.setValor(rs.getFloat("valor"));
-                // ... (busque os outros campos)
-                lista.add(p);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return lista;
     }
-
-
 }

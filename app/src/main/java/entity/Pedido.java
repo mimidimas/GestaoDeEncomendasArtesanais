@@ -1,20 +1,24 @@
 package entity;
 
+import javafx.collections.ObservableList;
+
 import java.time.LocalDate;
-import java.util.List;
 
 public class Pedido{
-    List<Produto> produto;
+    long id;
     String nomeCliente;
     LocalDate dataDeEntrega;
-    String status;
+    String statusProduto;
+    String statusPagamento;
+    String formaDePagamento;
+    Float total;
 
-    public List<Produto> getProduto() {
-        return produto;
+    public long getId() {
+        return id;
     }
 
-    public void setProduto(List<Produto> produto) {
-        this.produto = produto;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public LocalDate getDataDeEntrega() {
@@ -25,11 +29,43 @@ public class Pedido{
         this.dataDeEntrega = dataDeEntrega;
     }
 
-    public String getStatus() {
-        return status;
+    public String getNomeCliente() {
+        return nomeCliente;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setNomeCliente(String nomeCliente) {
+        this.nomeCliente = nomeCliente;
+    }
+
+    public String getStatusProduto() {
+        return statusProduto;
+    }
+
+    public void setStatusProduto(String statusProduto) {
+        this.statusProduto = statusProduto;
+    }
+
+    public String getStatusPagamento() {
+        return statusPagamento;
+    }
+
+    public void setStatusPagamento(String statusPagamento) {
+        this.statusPagamento = statusPagamento;
+    }
+
+    public String getFormaDePagamento() {
+        return formaDePagamento;
+    }
+
+    public void setFormaDePagamento(String formaDePagamento) {
+        this.formaDePagamento = formaDePagamento;
+    }
+
+    public Float getTotal() {
+        return total;
+    }
+
+    public void setTotal(Float total) {
+        this.total = total;
     }
 }

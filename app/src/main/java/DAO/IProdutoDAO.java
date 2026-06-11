@@ -1,14 +1,14 @@
 package DAO;
 
 import entity.Produto;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
 public interface IProdutoDAO {
     void inserir(Produto produto);
-    void atualizar(Produto produto);
-    void remover(int id);
+    void atualizar(long id, Produto p);
+    void remover(String nome);
     Produto buscarPorId(int id);
-    Produto buscarNome(String nome);
-    Produto listar();
+    ObservableList<Produto> buscarNome(String nome);
 }

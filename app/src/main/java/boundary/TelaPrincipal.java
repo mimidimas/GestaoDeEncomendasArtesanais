@@ -1,5 +1,4 @@
 package boundary;
-import entity.Pedido;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
@@ -61,6 +60,15 @@ public class TelaPrincipal extends Application{
                 bp.setCenter(caixaCentral); // Ação de voltar: coloca a caixa do menu no centro
             }));
         });
+
+            btnPedido.setOnAction(e -> {
+                PedidoBoundary telaPedido = new PedidoBoundary();
+
+                // voltando pra tela inicial
+                bp.setCenter(telaPedido.render(() -> {
+                    bp.setCenter(caixaCentral); // Ação de voltar: coloca a caixa do menu no centro
+                }));
+            });
 
 
         //Organizando botões

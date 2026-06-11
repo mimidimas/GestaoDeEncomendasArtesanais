@@ -1,14 +1,18 @@
 package boundary;
 
 import control.ProdutoControl;
+import entity.Produto;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.beans.binding.Bindings;
+import javafx.util.Callback;
+
 
 class ProdutoBoundary {
     private ProdutoControl control = new ProdutoControl();
@@ -18,6 +22,8 @@ class ProdutoBoundary {
     private TextField txtValor = new TextField();
     private TextField txtQuantidade = new TextField();
     private TextField txtMaterial = new TextField();
+
+    private TableView<Produto> table = new TableView<>();
 
     public BorderPane render(Runnable acaoVoltar) { //Precisa do render para navegar entre as telas e chamar na principal
         BorderPane bp = new BorderPane();
@@ -85,6 +91,114 @@ class ProdutoBoundary {
         btnVoltar.setOnAction(e -> {
             acaoVoltar.run();
         });
+
+        //table view
+        TableColumn<Produto, String> colNome = new TableColumn<>("Nome");
+        colNome.setCellValueFactory(
+                itemData -> new ReadOnlyStringWrapper(itemData.getValue().getNome())
+        );
+
+        TableColumn<Produto, String> colDescricao = new TableColumn<>("Descrição");
+        colDescricao.setCellValueFactory(
+                itemData -> new ReadOnlyStringWrapper(itemData.getValue().getDescricao())
+        );
+        TableColumn<Produto, String> colMaterial = new TableColumn<>("Material");
+        colMaterial.setCellValueFactory(
+                itemData -> new ReadOnlyStringWrapper(itemData.getValue().getMaterial())
+        );
+        TableColumn<Produto, String> colTamanho = new TableColumn<>("Tamanho");
+        colTamanho.setCellValueFactory(
+                itemData -> new ReadOnlyStringWrapper(itemData.getValue().getTamanho())
+        );
+        TableColumn<Produto, String> colValor = new TableColumn<>("Valor");
+        colValor.setCellValueFactory(
+                itemData -> new ReadOnlyStringWrapper(String.valueOf(itemData.getValue().getValor()))
+        );
+        TableColumn<Produto, String> colQuantEstoque = new TableColumn<>("Quantidade em Estoque");
+        colQuantEstoque.setCellValueFactory(
+                itemData -> new ReadOnlyStringWrapper(String.valueOf(itemData.getValue().getQuantEstoque()))
+        );
+
+        TableColumn<Produto, Void> colApagar = new TableColumn<>("Apagar");
+        Callback<TableColumn<Produto, Void>, TableCell<Produto, Void>> callBack = new Callback<>() {
+            public TableCell<Produto, Void> call(TableColumn<Produto, Void> param) {
+                return new TableCell<Produto, Void>(){
+                    private Button btnDelete = new Button("");
+                    {
+                        Image iconDelete = new Image(getClass().getResourceAsStream("/images/delete.png"));
+                        // 2. Wrap it in an ImageView
+                        ImageView deleteImageView = new ImageView(iconDelete);
+                        // 3. Optional: Resize the image to fit the button
+                        deleteImageView.setFitHeight(20);
+                        deleteImageView.setFitWidth(20);
+                        btnDelete.setGraphic(deleteImageView);
+
+                        btnDelete.setOnAction( e -> control.apagar( getIndex() ));
+                    }
+
+                    public void updateItem(Void item, boolean empty) {
+                        if (!empty) {
+                            setGraphic( btnDelete );
+                        } else {
+                            setGraphic( null );
+                        }
+                    }
+                };
+            }
+        };
+        colApagar.setCellFactory( callBack );
+
+        TableColumn<Produto, Void> colEditar = new TableColumn<>("Editar");
+        Callback<TableColumn<Produto, Void>, TableCell<Produto, Void>> editCellFactory = new Callback<>() {
+            public TableCell<Produto, Void> call(TableColumn<Produto, Void> param) {
+                return new TableCell<Produto, Void>() {
+                    private Button btnEdit = new Button("");
+                    {
+                        Image iconEdit = new Image(getClass().getResourceAsStream("/images/edit.png"));
+                        // 2. Wrap it in an ImageView
+                        ImageView EditImageView = new ImageView(iconEdit);
+                        // 3. Optional: Resize the image to fit the button
+                        EditImageView.setFitHeight(20);
+                        EditImageView.setFitWidth(20);
+                        btnEdit.setGraphic(EditImageView);
+
+                        btnEdit.setOnAction(e -> {
+                            Produto p = getTableView().getItems().get(getIndex());
+                            control.toBoundary(p); // Isso coloca os dados do produto clicado lá nos campos de texto
+                        });
+                    }
+
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty) {
+                            setGraphic(btnEdit);
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                };
+            }
+        };
+        colEditar.setCellFactory(editCellFactory);
+
+        table.setItems( control.getLista() );
+
+        table.getColumns().add( colNome );
+        table.getColumns().add( colDescricao );
+        table.getColumns().add( colMaterial );
+        table.getColumns().add( colTamanho );
+        table.getColumns().add( colValor );
+        table.getColumns().add( colQuantEstoque );
+        table.getColumns().add( colApagar );
+        table.getColumns().add( colEditar );
+
+        table.getSelectionModel().selectedItemProperty().addListener(
+                (obj, antigo, nova) -> control.toBoundary(nova)
+        );
+
+        control.limparCampos();
+
+        bp.setBottom(table);
 
         return bp;
     }
