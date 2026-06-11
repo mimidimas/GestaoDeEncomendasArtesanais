@@ -17,5 +17,5 @@ Instruções de execução:
 O sistema deve ser rodado com o comando gradle run pelo terminal, as telas são super intuítivas!
 
 Link do video de execução:
-
+https://youtu.be/pRbCwH4T7zo
 
